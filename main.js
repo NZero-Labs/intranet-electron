@@ -137,7 +137,9 @@ function createWindow() {
   mainWindow.setBrowserView(browserView);
   mainWindow.loadFile(path.join(__dirname, "./src/index.html"));
   mainWindow.webContents.send("isLoading", true);
-  browserViewOpening();
+  if (!app.isPackaged) {
+    browserViewOpening();
+  }
   function handleWindowChange() {
     const contentBounds = mainWindow.getContentBounds();
     browserView.setBounds({
@@ -150,6 +152,20 @@ function createWindow() {
   mainWindow.on("will-resize", handleWindowChange);
   mainWindow.on("maximize", handleWindowChange);
   mainWindow.on("unmaximize", handleWindowChange);
+
+  function handleLoading(isLoading) {
+    return () => {
+      mainWindow.webContents.send("arrow-navigation", {
+        canGoBack: browserView.webContents.canGoBack(),
+        canGoForward: browserView.webContents.canGoForward(),
+      });
+      mainWindow.webContents.send("isLoading", isLoading);
+    };
+  }
+  browserView.webContents.on("did-start-loading", handleLoading(true));
+  browserView.webContents.on("did-stop-loading", handleLoading(false));
+  browserView.webContents.on("will-navigate", handleLoading(true));
+  browserView.webContents.on("did-navigate", handleLoading(false));
 
   ipcMain.on("send-notification", (e, notificationOptions) => {
     try {
@@ -186,19 +202,6 @@ function createWindow() {
   ipcMain.on("forwardApp", () => {
     browserView.webContents.goForward();
   });
-  function handleLoading(isLoading) {
-    return () => {
-      mainWindow.webContents.send("arrow-navigation", {
-        canGoBack: browserView.webContents.canGoBack(),
-        canGoForward: browserView.webContents.canGoForward(),
-      });
-      mainWindow.webContents.send("isLoading", isLoading);
-    };
-  }
-  browserView.webContents.on("did-start-loading", handleLoading(true));
-  browserView.webContents.on("did-stop-loading", handleLoading(false));
-  browserView.webContents.on("will-navigate", handleLoading(true));
-  browserView.webContents.on("did-navigate", handleLoading(false));
   ipcMain.on("minimizeApp", () => {
     mainWindow.minimize();
   });
@@ -229,8 +232,8 @@ function createWindow() {
     mainWindow.webContents.send("isRestored");
   });
 
-  // mainWindow.webContents.openDevTools();
-  // browserView.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
+  browserView.webContents.openDevTools();
   // Protocol handler for win32
   if (process.platform == "win32") {
     handleOpenAppAndRedirectToPage(process.argv.slice(1));
@@ -260,11 +263,66 @@ app.on("open-url", function (event, url) {
   handleOpenAppAndRedirectToPage(url);
 });
 
+function showMessage(message) {
+  mainWindow.webContents.send("updateMessage", message);
+}
 app.whenReady().then(() => {
   app.on("activate", function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
-  autoUpdater.checkForUpdates();
+  if (app.isPackaged) {
+    browserView.setBounds({ x: 0, y: 0, width: 0, height: 0 });
+    autoUpdater.checkForUpdates();
+    showMessage({
+      text: "Buscando por atualizações...",
+      progress: undefined,
+    });
+  }
+});
+
+autoUpdater.on("update-available", (info) => {
+  showMessage({
+    text: `Atualização Disponível. Versão Atual: ${app.getVersion()}`,
+    progress: undefined,
+  });
+  autoUpdater.downloadUpdate();
+});
+autoUpdater.on("download-progress", (info) => {
+  showMessage({
+    text: null,
+    progress: info.percent,
+  });
+});
+autoUpdater.on("update-not-available", (info) => {
+  showMessage({
+    text: `Não há Atualização Disponível. Versão Atual: ${app.getVersion()}`,
+    progress: undefined,
+  });
+  setTimeout(() => {
+    showMessage(null);
+    browserViewOpening();
+  }, 1000);
+});
+
+/*Download Completion Message*/
+autoUpdater.on("update-downloaded", (info) => {
+  showMessage({
+    text: `Atualização Concluída. Versão Atual: ${app.getVersion()}`,
+    progress: 100,
+  });
+
+  setTimeout(() => {
+    showMessage(null);
+    browserViewOpening();
+  }, 1000);
+});
+
+autoUpdater.on("error", (info) => {
+  showMessage({
+    text: "Parece que ocorreu um erro na atualização! Contate o time de TI",
+    progress: undefined,
+    erro: true,
+  });
 });
 
 app.on("window-all-closed", function () {

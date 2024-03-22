@@ -1,7 +1,7 @@
 {
   "name": "intranet-amaranzero",
   "productName": "Intranet AmaraNZero",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "App feito para o comercial Amara NZero",
   "main": "main.js",
   "scripts": {
@@ -11,6 +11,11 @@
     "build:lin": "electron-builder -l"
   },
   "keywords": [],
+  "repository": "https://github.com/NZero-Labs/intranet-electron",
+  "publish": {
+    "provider": "github",
+    "releaseType": "release"
+  },
   "author": {
     "name": "Victor Evangelista",
     "email": "desenvolvedor@amaranzero.com"
