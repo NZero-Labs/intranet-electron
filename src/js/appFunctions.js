@@ -76,21 +76,24 @@ window.addEventListener("keydown", (e) => {
   if (e.code === "F5") ipc.send("reloadApp");
 });
 function updateMessage(_event, message) {
+  let modalEl = document.getElementById("modal-auto-update");
   let messageEl = document.getElementById("auto-update-message");
   let progressEl = document.getElementById("auto-update-progress");
   if (message) {
+    modalEl.classList.add("show");
     if (message.text) {
       messageEl.innerHTML = message.text;
       messageEl.classList.add("show");
     }
     if (message.progress) {
-      progressEl.value = message.progress;
+      progressEl.style.width = `${message.progress}%`;
       progressEl.classList.add("show");
+      progressEl.innerHTML = `${message.progress}%`;
     } else {
       progressEl.classList.remove("show");
     }
   } else {
-    messageEl.classList.remove("show");
+    modalEl.classList.remove("show");
   }
 }
 document.addEventListener("DOMContentLoaded", function () {

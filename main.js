@@ -232,8 +232,8 @@ function createWindow() {
     mainWindow.webContents.send("isRestored");
   });
 
-  mainWindow.webContents.openDevTools();
-  browserView.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
+  // browserView.webContents.openDevTools();
   // Protocol handler for win32
   if (process.platform == "win32") {
     handleOpenAppAndRedirectToPage(process.argv.slice(1));
@@ -314,12 +314,14 @@ autoUpdater.on("update-downloaded", (info) => {
   setTimeout(() => {
     showMessage(null);
     browserViewOpening();
+    autoUpdater.quitAndInstall();
   }, 1000);
 });
 
 autoUpdater.on("error", (info) => {
   showMessage({
-    text: "Parece que ocorreu um erro na atualização! Contate o time de TI",
+    text:
+      "Parece que ocorreu um erro na atualização! Contate o time de TI" + info,
     progress: undefined,
     erro: true,
   });

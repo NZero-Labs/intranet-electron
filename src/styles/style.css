@@ -53,7 +53,7 @@ body {
   border-radius: 9999px; /* Bordas arredondadas */
   overflow: hidden; /* Oculta qualquer conteúdo que ultrapasse */
 }
-#modal-auto-update .auto-update-progress {
+#modal-auto-update #auto-update-progress {
   background-color: #3b82f6; /* Cor de fundo azul */
   color: #f3f4f6; /* Cor do texto branco */
   font-size: 0.75rem; /* Tamanho da fonte */
@@ -65,7 +65,7 @@ body {
   display: none; /* Display como bloco inline */
   margin: 0; /* Margem zero */
 }
-#modal-auto-update .auto-update-progres.show {
+#modal-auto-update #auto-update-progress.show {
   display: inline-block;
 }
 #topbarElect {

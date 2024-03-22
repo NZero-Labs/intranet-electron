@@ -1,7 +1,7 @@
 {
   "name": "intranet-amaranzero",
   "productName": "Intranet AmaraNZero",
-  "version": "1.0.1",
+  "version": "1.0.6",
   "description": "App feito para o comercial Amara NZero",
   "main": "main.js",
   "scripts": {
@@ -42,6 +42,7 @@
     },
     "nsis": {
       "oneClick": true,
+      "artifactName": "Intranet-Amaranzero-Setup-${version}.${ext}",
       "installerIcon": "favicon.ico",
       "multiLanguageInstaller": true,
       "unicode": true,
