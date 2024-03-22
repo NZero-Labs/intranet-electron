@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./styles/style.css">
+  <script defer src="./js/appFunctions.js"></script>
+</head>
+
+<body>
+  <div id="topbarElect">
+    <div class="titleBarElect">
+      <img id="logoElect" src="./img/favicon.ico" alt="Icon amaranzero" width="24" height="24">
+      <button id="backBtnElect" class="topBtn backBtnElect notFilled navigation" title="Voltar">
+        <svg data-v-56bd7dfc="" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="lucide lucide-chevron-left">
+          <path d="m15 18-6-6 6-6"></path>
+        </svg>
+      </button>
+      <button id="forwardBtnElect" class="topBtn forwardBtnElect notFilled navigation" title="Avançar">
+        <svg data-v-56bd7dfc="" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="lucide lucide-chevron-right">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </button>
+    </div>
+    <div class="titleBarBtnsElect">
+      <button id="reloadBtnElect" class="topBtn reloadBtnElect notFilled" title="Atualizar Página">
+        <svg data-v-e087307f="" xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="lucide lucide-loader lucide-icon customizable">
+          <line x1="12" x2="12" y1="2" y2="6"></line>
+          <line x1="12" x2="12" y1="18" y2="22"></line>
+          <line x1="4.93" x2="7.76" y1="4.93" y2="7.76"></line>
+          <line x1="16.24" x2="19.07" y1="16.24" y2="19.07"></line>
+          <line x1="2" x2="6" y1="12" y2="12"></line>
+          <line x1="18" x2="22" y1="12" y2="12"></line>
+          <line x1="4.93" x2="7.76" y1="19.07" y2="16.24"></line>
+          <line x1="16.24" x2="19.07" y1="7.76" y2="4.93"></line>
+        </svg>
+      </button>
+      <button id="minimizeBtnElect" class="topBtn minimizeBtnElect" title="Minimize">
+        <svg title="Minimize" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CloseIcon"
+          tabindex="-1">
+          <path d="M19 13H5v-2h14v2z"></path>
+        </svg>
+      </button>
+      <button id="maxResBtnElect" class="topBtn maxResBtnElect" title="Maximize">
+        <svg focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="WebAssetIcon" id="maximizeIconElect">
+          <path d="M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2zm0 14H5V8h14v10z">
+          </path>
+        </svg>
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          width="122.88px" height="114.64px" viewBox="0 0 122.88 114.64" enable-background="new 0 0 122.88 114.64"
+          xml:space="preserve" style="display:none;" id="restoreIconElect">
+          <g>
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M8.284,36.331h22.438V9.749C30.722,4.388,35.11,0,40.471,0h72.66 c5.361,0,9.749,4.388,9.749,9.749v72.66c0,5.36-4.388,9.749-9.749,9.749h-34.82v14.197c0,4.561-3.723,8.284-8.283,8.284H8.284 c-4.561,0-8.284-3.724-8.284-8.284V44.614C0,40.054,3.723,36.331,8.284,36.331L8.284,36.331z M30.722,56.694H7.851v43.469 c0,3.646,2.979,6.626,6.626,6.626h49.357c3.646,0,6.627-2.979,6.627-6.626v-8.005h-29.99c-5.361,0-9.749-4.389-9.749-9.749V56.694 L30.722,56.694z M113.635,25.634h-73.67v49.487c0,4.288,3.504,7.792,7.794,7.792h58.084c4.288,0,7.792-3.504,7.792-7.792V25.634 L113.635,25.634z">
+            </path>
+          </g>
+        </svg>
+      </button>
+      <button id="closeBtnElect" class="topBtn closeBtnElect" title="Close">
+        <svg focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CloseIcon" tabindex="-1"
+          title="Close" style="
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            width: 30px;
+            height: 30px;
+            display: inline-block;
+            fill: currentColor;
+            -webkit-flex-shrink: 0;
+            -ms-flex-negative: 0;
+            flex-shrink: 0;
+            font-size: 2rem;
+            box-sizing: content-box;
+            cursor: pointer;
+            color: inherit;
+            border-radius: 4px;
+            -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+            transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+            margin: 4px 0px;">
+          <path
+            d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z">
+          </path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</body>
+
+</html>

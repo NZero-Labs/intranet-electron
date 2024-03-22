@@ -1,0 +1,54 @@
+{
+  "name": "intranet-amaranzero",
+  "productName": "Intranet AmaraNZero",
+  "version": "1.0.0",
+  "description": "App feito para o comercial Amara NZero",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder -w --x64 --ia32",
+    "build:mac": "electron-builder -m",
+    "build:lin": "electron-builder -l"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Victor Evangelista",
+    "email": "desenvolvedor@amaranzero.com"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^19.0.2",
+    "electron-builder": "^23.0.3"
+  },
+  "icon": "favicon.ico",
+  "build": {
+    "appId": "intranet-amaranzero",
+    "productName": "Intranet Amaranzero",
+    "mac": {
+      "category": "public.app-category.business",
+      "type": "distribution",
+      "icon": "favicon.ico"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "favicon.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "installerIcon": "favicon.ico",
+      "multiLanguageInstaller": true,
+      "unicode": true,
+      "uninstallerIcon": "favicon.ico",
+      "uninstallDisplayName": "Intranet-AmaraNZero-Uninstaller",
+      "allowToChangeInstallationDirectory": false
+    }
+  },
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "custom-electron-titlebar": "^4.1.0",
+    "electron-context-menu": "^3.6.1",
+    "electron-updater": "^6.1.8"
+  }
+}
