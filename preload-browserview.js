@@ -30,6 +30,27 @@ function getInnerText(el) {
   }
   return innerText;
 }
+function tryToConvertStringToNumber(stringToConvert) {
+  // Verifica se a string começa com o símbolo de moeda desejado
+  const converter = (v) => {
+    // Remove o símbolo de moeda e os pontos de separação de milhares
+    const stringLimpa = v.replace(/[^\d,-]/g, "");
+
+    // Substitui a vírgula por um ponto
+    const stringPonto = stringLimpa.replace(",", ".");
+
+    // Converte a string em número
+    const numero = parseFloat(stringPonto);
+
+    return numero.toString().replace(".", ",");
+  };
+  if (stringToConvert.startsWith("R$") || stringToConvert.endsWith("KWP")) {
+    return converter(stringToConvert);
+  } else {
+    // Retorna NaN se a string não estiver no formato de dinheiro
+    return stringToConvert;
+  }
+}
 function getSelectedText(table) {
   let tableText = "";
 
@@ -54,8 +75,8 @@ function getCellText(cell) {
       // Se for um nó de texto
       cellText +=
         cellText === ""
-          ? `${element.textContent.trim()}`
-          : `\t${element.textContent.trim()}`; // Adiciona o texto do nó de texto
+          ? `${tryToConvertStringToNumber(element.textContent.trim())}`
+          : `\t${tryToConvertStringToNumber(element.textContent.trim())}`; // Adiciona o texto do nó de texto
     } else if (element.nodeType === 1) {
       // Se for um elemento HTML
       const tagName = element.tagName.toLowerCase();
