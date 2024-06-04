@@ -55,6 +55,6 @@
     "child_process": "^1.0.2",
     "custom-electron-titlebar": "^4.1.0",
     "electron-context-menu": "^3.6.1",
-    "electron-updater": "^6.1.8"
+    "electron-updater": "^6.2.1"
   }
 }
