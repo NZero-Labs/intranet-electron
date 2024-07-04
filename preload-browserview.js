@@ -206,15 +206,7 @@ window.addEventListener("contextmenu", (e) => {
   }
 });
 window.addEventListener("DOMContentLoaded", () => {
-  if (Notification.permission === "granted") window.ipc = ipcRenderer;
-  if (Notification.permission === "default") {
-    Notification.requestPermission().then((permission) => {
-      // If the user accepts, let's create a notification
-      if (permission === "granted") {
-        window.ipc = ipcRenderer;
-      }
-    });
-  }
+  window.ipc = ipcRenderer;
 });
 
 window.addEventListener("keypress", (e) => {
