@@ -54,6 +54,8 @@ function handleOpenAppAndRedirectToPage(url) {
 
   if (urlWrapped) {
     browserViewOpening(urlWrapped);
+  } else if (url.includes("/api/v1/files/exports")) {
+    browserView.webContents.downloadURL(url);
   }
 }
 autoUpdater.autoDownload = false;
