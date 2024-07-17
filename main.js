@@ -185,6 +185,25 @@ function createWindow() {
   ipcMain.on("rightClickApp", (e, el) => {
     rightClickText = el;
   });
+  ipcMain.on("copyText", (e, rightClickText) => {
+    clipboard.writeText(rightClickText);
+    const abortController = new AbortController();
+    dialog.showMessageBox(null, {
+      type: "info",
+      // defaultId: 2,
+      signal: abortController.signal,
+      title: "Texto Copiado!",
+      message: `O Texto foi copiado:`,
+      detail:
+        rightClickText.length > 20
+          ? `${rightClickText.slice(0, 20)}...`
+          : rightClickText,
+      icon: `${__dirname}/favicon.ico`,
+    });
+    setTimeout(() => {
+      abortController.abort();
+    }, 1000);
+  });
   ipcMain.on("reinicializeApp", () => {
     const appName = app.getName();
     const getAppPath = path.join(app.getPath("appData"), appName);
