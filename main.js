@@ -16,7 +16,7 @@ const { autoUpdater } = require("electron-updater");
 let mainWindow;
 let browserView;
 const TITLEBAR_HEIGHT = 40;
-const SITE_URL = "http://10.10.20.140:3000/";
+const SITE_URL = "http://10.10.10.5/";
 
 // set URL Protocol
 if (process.defaultApp) {
