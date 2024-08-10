@@ -16,7 +16,7 @@ const { autoUpdater } = require("electron-updater");
 let mainWindow;
 let browserView;
 const TITLEBAR_HEIGHT = 40;
-const SITE_URL = "http://10.10.10.5/";
+const SITE_URL = "http://10.10.20.140:3000/";
 
 // set URL Protocol
 if (process.defaultApp) {
@@ -55,7 +55,7 @@ function handleOpenAppAndRedirectToPage(url) {
   if (urlWrapped) {
     browserViewOpening(urlWrapped);
   } else if (url.includes("/api/v1/files/exports")) {
-    browserView.webContents.downloadURL(url);
+    handleDownload({ url });
   }
 }
 autoUpdater.autoDownload = false;
@@ -168,7 +168,31 @@ function createWindow() {
   browserView.webContents.on("did-stop-loading", handleLoading(false));
   browserView.webContents.on("will-navigate", handleLoading(true));
   browserView.webContents.on("did-navigate", handleLoading(false));
+  let filePath = null;
+  function handleDownload(payload) {
+    let properties = payload.properties ? { ...payload.properties } : {};
+    const defaultPath = app.getPath(
+      properties.directory ? properties.directory : "documents"
+    );
+    const defaultFileName = properties.filename
+      ? properties.filename
+      : payload?.url?.split("?")?.[0]?.split("/")?.pop();
+    let customURL = dialog.showSaveDialogSync({
+      defaultPath: `${defaultPath}/${defaultFileName}`,
+    });
 
+    filePath = customURL;
+    if (filePath) browserView.webContents.downloadURL(payload.url);
+  }
+  ipcMain.on("download", async (e, { payload }) => {
+    handleDownload(payload);
+  });
+  browserView.webContents.session.on(
+    "will-download",
+    (event, item, webContents) => {
+      item.setSavePath(filePath);
+    }
+  );
   ipcMain.on("send-notification", (e, notificationOptions) => {
     try {
       const notification = new Notification(notificationOptions);
@@ -253,8 +277,8 @@ function createWindow() {
     mainWindow.webContents.send("isRestored");
   });
 
-  // mainWindow.webContents.openDevTools();
-  // browserView.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
+  browserView.webContents.openDevTools();
   // Protocol handler for win32
   if (process.platform == "win32") {
     handleOpenAppAndRedirectToPage(process.argv.slice(1));
