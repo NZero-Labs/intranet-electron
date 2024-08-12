@@ -277,8 +277,8 @@ function createWindow() {
     mainWindow.webContents.send("isRestored");
   });
 
-  mainWindow.webContents.openDevTools();
-  browserView.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
+  // browserView.webContents.openDevTools();
   // Protocol handler for win32
   if (process.platform == "win32") {
     handleOpenAppAndRedirectToPage(process.argv.slice(1));
