@@ -86,9 +86,9 @@ function updateMessage(_event, message) {
       messageEl.classList.add("show");
     }
     if (message.progress) {
-      progressEl.style.width = `${message.progress}%`;
+      progressEl.style.width = `${message.progress.toFixed(2)}%`;
       progressEl.classList.add("show");
-      progressEl.innerHTML = `${message.progress}%`;
+      progressEl.innerHTML = `${message.progress.toFixed(2)}%`;
     } else {
       progressEl.classList.remove("show");
     }
