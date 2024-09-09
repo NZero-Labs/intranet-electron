@@ -25,17 +25,18 @@ jobs:
         id: bump_version
         run: |
           # Automatically increment the version (you can change this to minor or major if needed)
-          npm version patch --no-git-tag-version
+          yarn version --patch --no-git-tag-version
 
           # Capture the new version and store it in the output variable
-          NEW_VERSION=$(node -p "require('./package.json').version")
-          echo "::set-output name=VERSION::$NEW_VERSION"
+          $new_version = (Get-Content ./package.json | ConvertFrom-Json).version
+          echo "::set-output name=VERSION::$new_version"
 
           # Commit the version bump
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git commit -am "ci: bump version to $NEW_VERSION"
+          git commit -am "ci: bump version to $new_version"
           git push origin main
+        shell: pwsh
 
       - name: Create Tag
         id: tag_check
