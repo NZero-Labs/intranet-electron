@@ -58,6 +58,21 @@ function handleOpenAppAndRedirectToPage(url) {
     handleDownload({ url });
   }
 }
+function handleDownload(payload) {
+  let properties = payload.properties ? { ...payload.properties } : {};
+  const defaultPath = app.getPath(
+    properties.directory ? properties.directory : "documents"
+  );
+  const defaultFileName = properties.filename
+    ? properties.filename
+    : payload?.url?.split("?")?.[0]?.split("/")?.pop();
+  let customURL = dialog.showSaveDialogSync({
+    defaultPath: `${defaultPath}/${defaultFileName}`,
+  });
+
+  filePath = customURL;
+  if (filePath) browserView.webContents.downloadURL(payload.url);
+}
 autoUpdater.autoDownload = false;
 autoUpdater.autoInstallOnAppQuit = true;
 function createWindow() {
@@ -169,21 +184,6 @@ function createWindow() {
   browserView.webContents.on("will-navigate", handleLoading(true));
   browserView.webContents.on("did-navigate", handleLoading(false));
   let filePath = null;
-  function handleDownload(payload) {
-    let properties = payload.properties ? { ...payload.properties } : {};
-    const defaultPath = app.getPath(
-      properties.directory ? properties.directory : "documents"
-    );
-    const defaultFileName = properties.filename
-      ? properties.filename
-      : payload?.url?.split("?")?.[0]?.split("/")?.pop();
-    let customURL = dialog.showSaveDialogSync({
-      defaultPath: `${defaultPath}/${defaultFileName}`,
-    });
-
-    filePath = customURL;
-    if (filePath) browserView.webContents.downloadURL(payload.url);
-  }
   ipcMain.on("download", async (e, { payload }) => {
     handleDownload(payload);
   });

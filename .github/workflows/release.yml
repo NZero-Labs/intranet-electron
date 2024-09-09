@@ -1,0 +1,57 @@
+name: Auto Version Bump, Build, and Release Electron App
+
+on:
+  push:
+    branches:
+      - main # Runs on push to the main branch
+
+jobs:
+  bump-version-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16.x"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Bump version
+        id: bump_version
+        run: |
+          # Automatically increment the version (you can change this to minor or major if needed)
+          npm version patch --no-git-tag-version
+
+          # Capture the new version and store it in the output variable
+          NEW_VERSION=$(node -p "require('./package.json').version")
+          echo "::set-output name=VERSION::$NEW_VERSION"
+
+          # Commit the version bump
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git commit -am "ci: bump version to $NEW_VERSION"
+          git push origin main
+
+      - name: Create Tag
+        id: tag_check
+        run: |
+          git tag -a "${{ steps.bump_version.outputs.VERSION }}" -m "Release version ${{ steps.bump_version.outputs.VERSION }}"
+          git push origin "${{ steps.bump_version.outputs.VERSION }}"
+
+      - name: Build Electron App
+        run: npm run build:win # Adjust this command for your platform
+
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/**/*.*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
