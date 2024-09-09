@@ -55,7 +55,7 @@
     "child_process": "^1.0.2",
     "custom-electron-titlebar": "^4.1.0",
     "electron-context-menu": "^3.6.1",
-    "electron-updater": "^6.1.8",
+    "electron-updater": "^6.3.4",
     "node-notifier": "^10.0.1",
     "windows-notification-state": "^2.0.0"
   }
