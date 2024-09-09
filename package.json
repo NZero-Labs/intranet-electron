@@ -1,7 +1,7 @@
 {
   "name": "intranet-amaranzero",
   "productName": "Intranet AmaraNZero",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "App feito para o comercial Amara NZero",
   "main": "main.js",
   "scripts": {
