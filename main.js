@@ -100,6 +100,7 @@ function createWindow() {
     webPreferences: {
       preload: `${__dirname}/preload-browserview.js`,
       // devTools: true,
+
       sandbox: false,
       contextIsolation: false,
     },
@@ -183,6 +184,22 @@ function createWindow() {
   browserView.webContents.on("did-stop-loading", handleLoading(false));
   browserView.webContents.on("will-navigate", handleLoading(true));
   browserView.webContents.on("did-navigate", handleLoading(false));
+
+  browserView.webContents.setZoomFactor(1.0);
+  browserView.webContents
+    .setVisualZoomLevelLimits(1, 5)
+    .then(console.log("Zoom Levels Have been Set between 100% and 500%"))
+    .catch((err) => console.log(err));
+  browserView.webContents.on("zoom-changed", (event, zoomDirection) => {
+    var currentZoom = browserView.webContents.getZoomFactor();
+
+    if (zoomDirection === "in") {
+      browserView.webContents.zoomFactor = currentZoom + 0.2;
+    }
+    if (zoomDirection === "out") {
+      browserView.webContents.zoomFactor = currentZoom - 0.2;
+    }
+  });
   let filePath = null;
   ipcMain.on("download", async (e, { payload }) => {
     handleDownload(payload);
